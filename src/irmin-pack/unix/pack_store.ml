@@ -64,6 +64,7 @@ struct
     fm : Fm.t;
     dict : Dict.t;
     dispatcher : Dispatcher.t;
+    layers : Remote.t; (* needs to be fed in as functor parameter *)
   }
 
   type hash = Hash.t [@@deriving irmin ~pp ~equal ~decode_bin]
@@ -116,7 +117,7 @@ struct
     in
     let lru = Lru.create ~weight lru_size in
     Fm.register_suffix_consumer fm ~after_flush:(fun () -> Tbl.clear staging);
-    { lru; staging; indexing_strategy; fm; dict; dispatcher }
+    { lru; staging; indexing_strategy; fm; dict; dispatcher; layers = None }
 
   module Entry_prefix = struct
     type t = {
@@ -319,6 +320,7 @@ struct
           Some v
 
   let unsafe_find ~check_integrity t k =
+    (* Here use the remote and continue finding if we cannot find in pack_file *)
     [%log.debug "[pack] find %a" pp_key k];
     let find_location = ref Stats.Pack_store.Not_found in
     let find_in_pack_file_guarded ~is_indexed =

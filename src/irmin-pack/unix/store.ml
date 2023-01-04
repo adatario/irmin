@@ -126,7 +126,7 @@ module Maker (Config : Conf.S) = struct
       end
 
       module Slice = Irmin.Backend.Slice.Make (Contents) (Node) (Commit)
-      module Remote = Irmin.Backend.Remote.None (Commit.Key) (B)
+      module Remote = Remote.Make (Commit.Key) (B)
 
       module Gc = Gc.Make (struct
         module Async = Async.Unix
@@ -157,6 +157,7 @@ module Maker (Config : Conf.S) = struct
           fm : File_manager.t;
           dict : Dict.t;
           dispatcher : Dispatcher.t;
+          lower_layer : Remote.t option;
           mutable during_batch : bool;
           mutable running_gc : running_gc option;
         }
@@ -211,6 +212,7 @@ module Maker (Config : Conf.S) = struct
             during_batch;
             running_gc;
             dispatcher;
+            lower_layer = None;
           }
 
         let flush t = File_manager.flush ?hook:None t.fm |> Errs.raise_if_error
