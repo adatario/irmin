@@ -15,8 +15,9 @@
   optint
   checkseum
   checkseum.ocaml
-  rusage)
+  rusage
+  landmarks)
  (preprocess
-  (pps ppx_irmin.internal))
+  (pps ppx_irmin.internal landmarks-ppx))
  (instrumentation
-  (backend bisect_ppx)))
+  (backend bisect_ppx landmarks)))
