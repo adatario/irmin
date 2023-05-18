@@ -24,7 +24,7 @@ module Syscalls = Index_unix.Syscalls
    implementation will not read/write more than a constant called
    [UNIX_BUFFER_SIZE]. *)
 module Util = struct
-  let really_write fd fd_offset buffer buffer_offset length =
+  let[@landmark] really_write fd fd_offset buffer buffer_offset length =
     let rec aux fd_offset buffer_offset length =
       let w = Syscalls.pwrite ~fd ~fd_offset ~buffer ~buffer_offset ~length in
       if w = 0 || w = length then ()
@@ -35,7 +35,7 @@ module Util = struct
     in
     aux fd_offset buffer_offset length
 
-  let really_read fd fd_offset length buffer =
+  let[@landmark] really_read fd fd_offset length buffer =
     let rec aux fd_offset buffer_offset length =
       let r = Syscalls.pread ~fd ~fd_offset ~buffer ~buffer_offset ~length in
       if r = 0 then buffer_offset (* end of file *)
