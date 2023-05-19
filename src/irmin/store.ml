@@ -157,6 +157,8 @@ module Make (B : Backend.S) = struct
   end)
 
   module Commit = struct
+    [@@@landmark "auto"]
+
     type t = commit
 
     let t r =
