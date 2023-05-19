@@ -1686,7 +1686,7 @@ module Make (P : Backend.S) = struct
     | `Node n -> (aux [@tailcall]) n path
     | `Contents _ -> Lwt.return_none
 
-  let find_tree (t : t) path =
+  let[@landmark] find_tree (t : t) path =
     let cache = true in
     [%log.debug "Tree.find_tree %a" pp_path path];
     match (t, Path.rdecons path) with
@@ -1773,7 +1773,7 @@ module Make (P : Backend.S) = struct
             | Some (`Contents _) -> Lwt.return_some `Contents
             | Some (`Node _) -> Lwt.return_some `Node))
 
-  let length t ?(cache = true) path =
+  let[@landmark] length t ?(cache = true) path =
     [%log.debug "Tree.length %a" pp_path path];
     sub ~cache "length" t path >>= function
     | None -> Lwt.return 0
@@ -1785,7 +1785,7 @@ module Make (P : Backend.S) = struct
     | None -> Lwt.return Seq.empty
     | Some n -> Node.seq ?offset ?length ~cache n >|= get_ok "seq"
 
-  let list t ?offset ?length ?(cache = true) path =
+  let[@landmark] list t ?offset ?length ?(cache = true) path =
     seq t ?offset ?length ~cache path >|= List.of_seq
 
   let empty () = `Node (Node.empty ())
