@@ -533,6 +533,8 @@ struct
   include Inner
   include Indexable.Closeable (Inner)
 
+  [@@@landmark "auto"]
+
   let v ~config ~fm ~dict ~dispatcher =
     Inner.v ~config ~fm ~dict ~dispatcher |> make_closeable
 
