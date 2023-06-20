@@ -1220,7 +1220,8 @@ module Make (P : Backend.S) = struct
       | Some m -> (
           match of_map m with None -> of_t () | Some _ as r -> return r)
 
-    let findv = findv_aux ~value_of_key ~return:Lwt.return ~bind:Lwt.bind
+    let[@landmark] findv =
+      findv_aux ~value_of_key ~return:Lwt.return ~bind:Lwt.bind
 
     let seq_of_map ?(offset = 0) ?length m : (step * elt) Seq.t =
       let take seq =
