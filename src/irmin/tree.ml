@@ -1674,7 +1674,7 @@ module Make (P : Backend.S) = struct
     | `Node n -> Node.clear ~max_depth:depth 0 n
     | `Contents _ -> ()
 
-  let sub ~cache ctx t path =
+  let[@landmark] sub ~cache ctx t path =
     let rec aux node path =
       match Path.decons path with
       | None -> Lwt.return_some node
