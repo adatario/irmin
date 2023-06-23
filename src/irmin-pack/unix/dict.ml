@@ -79,7 +79,7 @@ module Make (Fm : File_manager.S) = struct
     let v = try Some (Hashtbl.find t.index id) with Not_found -> None in
     v
 
-  let default_capacity = 100_000
+  let default_capacity = 500_000
 
   let v fm =
     let open Result_syntax in
