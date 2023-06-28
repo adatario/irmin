@@ -64,15 +64,16 @@ module Make (Fm : File_manager.S) = struct
 
   let index t v =
     [%log.debug "[dict] index %S" v];
-    try Some (Hashtbl.find t.cache v)
-    with Not_found ->
-      let id = Hashtbl.length t.cache in
-      if id > t.capacity then None
-      else (
-        append_string t v;
-        Hashtbl.add t.cache v id;
-        Hashtbl.add t.index id v;
-        Some id)
+    None
+    (* try Some (Hashtbl.find t.cache v) *)
+    (* with Not_found -> *)
+    (*   let id = Hashtbl.length t.cache in *)
+    (*   if id > t.capacity then None *)
+    (*   else ( *)
+    (*     append_string t v; *)
+    (*     Hashtbl.add t.cache v id; *)
+    (*     Hashtbl.add t.index id v; *)
+    (*     Some id) *)
 
   let find t id =
     [%log.debug "[dict] find %d" id];
