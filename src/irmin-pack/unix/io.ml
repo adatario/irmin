@@ -219,7 +219,7 @@ module Unix = struct
   let page_size = 4096
 
   let dont_need t =
-    ExtUnix.Specific.fadvise t.fd 0 0 ExtUnix.Specific.POSIX_FADV_DONTNEED
+    ExtUnix.Specific.fadvise t.fd 0 0 ExtUnix.Specific.POSIX_FADV_RANDOM
 
   let read_all_to_string t =
     let open Result_syntax in
